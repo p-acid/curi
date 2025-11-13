@@ -20,6 +20,16 @@
       "recommended": true,
       "suspicious": {
         "noUnknownAtRules": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "on",
+          "fix": "safe",
+          "options": {
+            "attributes": ["className"],
+            "functions": ["clsx", "cva", "cn"]
+          }
+        }
       }
     },
     "domains": {
