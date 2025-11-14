@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --spacing-container: 1100px;
   --breakpoint-desktop: 1100px;
   --breakpoint-mobile: 767;
   --text-default-line-height: 1.3;
@@ -12,13 +13,17 @@
   }
 }
 
+@utility content {
+  @apply px-5 max-mobile:px-0
+}
+
+@utility box {
+  @apply pt-10 max-mobile:px-4
+}
+
 :root {
   --background: #ffffff;
   --foreground: #121212;
-}
-
-html {
-  scrollbar-gutter: stable;
 }
 
 body {
