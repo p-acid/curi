@@ -1,5 +1,5 @@
 import type { MouseEventHandler } from "react";
-import X from "@/assets/icons/x.svg";
+import X from "@/assets/icons/x.svg?component";
 import { Button } from "@/components/button";
 import { cn } from "@/utils";
 
@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export const Header = ({ title, onExit }: HeaderProps) => {
   return (
-    <header className="sticky top-0 left-0 h-16 w-full border-[#D7D7D7] border-b max-mobile:h-12">
+    <header className="sticky top-0 left-0 h-16 w-full border-[#D7D7D7] border-b bg-background max-mobile:h-12">
       <div
         className={cn(
           "mx-auto flex h-full w-full max-w-container items-center justify-end px-5 max-mobile:px-4 max-mobile:py-2",
@@ -32,7 +32,7 @@ export const Header = ({ title, onExit }: HeaderProps) => {
               className="hidden max-mobile:inline-block"
               onClick={onExit}
             >
-              <X />
+              <X className="size-7" />
             </button>
           </>
         )}

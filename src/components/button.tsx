@@ -4,21 +4,21 @@ import { type ButtonHTMLAttributes, forwardRef } from "react";
 import { cn } from "@/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex w-fit items-center justify-center font-semibold active:font-bold disabled:pointer-events-none",
+  "inline-flex w-fit items-center justify-center whitespace-pre font-semibold active:font-bold disabled:pointer-events-none",
   {
     variants: {
       color: {
         graySolid:
-          "bg-[#323232] text-white hover:bg-[#565656] active:bg-[#121212] disabled:bg-[#D7D7D7]",
+          "bg-[#323232] text-white hover:bg-[#565656] active:bg-foreground disabled:bg-[#D7D7D7]",
         primarySolid:
           "bg-[#03C124] text-white hover:bg-[#02891A] active:bg-[#026A14] disabled:bg-[#D7D7D7]",
         primaryOutline:
           "border border-[#BABABA] bg-[#F7F7F8] text-[#323232] hover:bg-[#E5E5E5] active:border-[#03C124] active:bg-[#E6F9E9] active:text-[#03C124] disabled:border-[#D7D7D7] disabled:bg-[#E5E5E5] disabled:text-[#8F8F8F]",
       },
       size: {
-        small: "h-[38px] rounded-sm px-3 text-base leading-[1.4]!",
-        medium: "h-12 rounded-md px-5 text-lg",
-        large: "h-[58px] rounded-lg px-5 text-xl",
+        small: "btn-small",
+        medium: "btn-medium",
+        large: "btn-large",
       },
       /**
        * `compoundVariants` 를 위한 `variants` 필드
@@ -32,7 +32,7 @@ const buttonVariants = cva(
       {
         color: "graySolid",
         active: true,
-        className: "bg-[#121212]",
+        className: "bg-foreground",
       },
       {
         color: "primarySolid",

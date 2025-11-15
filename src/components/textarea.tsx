@@ -56,7 +56,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             onChange={handleChange}
             maxLength={maxLength}
             className={cn(
-              "min-h-[100px] w-full resize-none bg-transparent px-4 pt-4 pb-2 text-[#121212] text-base caret-[#03C124] outline-none placeholder:text-[#8F8F8F]",
+              "min-h-[100px] w-full resize-none bg-transparent px-4 pt-4 pb-2 text-foreground text-lg caret-[#03C124] outline-none placeholder:text-[#8F8F8F] max-mobile:min-h-20 max-mobile:text-base",
               { "caret-[#E82929]": error },
               className,
             )}
