@@ -32,17 +32,18 @@ const buttonVariants = cva(
       {
         color: "graySolid",
         active: true,
-        className: "bg-foreground",
+        className: "bg-foreground hover:bg-foreground",
       },
       {
         color: "primarySolid",
         active: true,
-        className: "bg-[#02891A]",
+        className: "bg-[#02891A] hover:bg-[#02891A]",
       },
       {
         color: "primaryOutline",
         active: true,
-        className: "border-[#03C124] bg-[#E6F9E9] text-[#03C124]",
+        className:
+          "border-[#03C124] bg-[#E6F9E9] text-[#03C124] hover:border-[#03C124] hover:bg-[#E6F9E9] hover:text-[#03C124]",
       },
     ],
     defaultVariants: {

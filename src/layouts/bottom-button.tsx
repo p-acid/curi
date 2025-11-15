@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "@/components/button";
+import { Button, type ButtonProps } from "@/components";
 
 export const BottomButton = (props: ButtonProps) => {
   return (

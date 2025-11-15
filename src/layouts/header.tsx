@@ -1,6 +1,6 @@
 import type { MouseEventHandler } from "react";
 import X from "@/assets/icons/x.svg?component";
-import { Button } from "@/components/button";
+import { Button } from "@/components";
 import { cn } from "@/utils";
 
 interface HeaderProps {
