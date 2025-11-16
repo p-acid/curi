@@ -144,7 +144,7 @@ export const AdditionalImages = () => {
           <div
             key={preview.id}
             onClick={() => handleImageClick(index)}
-            className="aspect-square cursor-pointer overflow-hidden rounded-lg border border-[#E5E5E5] bg-[#F7F7F8] transition-opacity hover:opacity-80 max-mobile:min-w-30"
+            className="aspect-square cursor-pointer overflow-hidden rounded-lg border border-[#E5E5E5] bg-[#F7F7F8] max-mobile:min-w-30"
           >
             <img
               src={preview.dataUrl}

@@ -1,15 +1,14 @@
 import type { PropsWithChildren } from "react";
-import { BottomButton } from "@/layouts/bottom-button";
-import { Header } from "@/layouts/header";
+import { HomeBottomButton, HomeHeader } from "./src/ui";
 
-const NavigationLayout = ({ children }: PropsWithChildren) => {
+const HomeLayout = ({ children }: PropsWithChildren) => {
   return (
     <div>
-      <Header title="과제" />
+      <HomeHeader />
       {children}
-      <BottomButton>다음으로</BottomButton>
+      <HomeBottomButton />
     </div>
   );
 };
 
-export default NavigationLayout;
+export default HomeLayout;
