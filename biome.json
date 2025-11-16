@@ -30,6 +30,13 @@
             "functions": ["clsx", "cva", "cn"]
           }
         }
+      },
+      "a11y": {
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
       }
     },
     "domains": {
