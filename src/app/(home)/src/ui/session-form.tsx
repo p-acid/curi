@@ -11,6 +11,13 @@ import {
 } from "@/store/use-create-content-store";
 import { DateSelect } from "./date-select";
 import { SessionDeleteModal } from "./session-delete-modal";
+import { TimeInput } from "./time-input";
+
+interface TimeValue {
+  period: "am" | "pm";
+  hour: number;
+  minute: number;
+}
 
 interface SessionFormFieldsProps extends Session {
   dateDisabled: Matcher[];
@@ -39,46 +46,12 @@ const SessionFormFields = memo(
       }
     };
 
-    const handleStartTimeChange = (
-      field: "period" | "hour" | "minute",
-      value: string | number,
-    ) => {
-      updateSession(id, {
-        startTime: {
-          ...startTime,
-          [field]: field === "period" ? value : Number(value),
-        },
-      });
+    const handleStartTimeChange = (value: TimeValue) => {
+      updateSession(id, { startTime: value });
     };
 
-    const toggleStartPeriod = () => {
-      updateSession(id, {
-        startTime: {
-          ...startTime,
-          period: startTime.period === "am" ? "pm" : "am",
-        },
-      });
-    };
-
-    const handleEndTimeChange = (
-      field: "period" | "hour" | "minute",
-      value: string | number,
-    ) => {
-      updateSession(id, {
-        endTime: {
-          ...endTime,
-          [field]: field === "period" ? value : Number(value),
-        },
-      });
-    };
-
-    const toggleEndPeriod = () => {
-      updateSession(id, {
-        endTime: {
-          ...endTime,
-          period: endTime.period === "am" ? "pm" : "am",
-        },
-      });
+    const handleEndTimeChange = (value: TimeValue) => {
+      updateSession(id, { endTime: value });
     };
 
     const handleDescriptionChange = (newDescription: string) => {
@@ -116,80 +89,14 @@ const SessionFormFields = memo(
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
                 시작 시간
               </span>
-              <div className="flex h-15 w-full items-center justify-center rounded-lg border border-[#E5E5E5] bg-background max-mobile:h-13">
-                <div className="flex min-w-20 items-center justify-center max-mobile:min-w-16">
-                  <Button
-                    color="primaryOutline"
-                    size="small"
-                    className="max-mobile:px-2"
-                    onClick={toggleStartPeriod}
-                  >
-                    {startTime.period === "am" ? "오전" : "오후"}
-                  </Button>
-                </div>
-                <input
-                  type="number"
-                  min="1"
-                  max="12"
-                  value={startTime.hour || ""}
-                  onChange={(e) =>
-                    handleStartTimeChange("hour", e.target.value)
-                  }
-                  className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
-                  placeholder="00"
-                />
-                <span className="font-medium text-lg">:</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="59"
-                  value={startTime.minute || ""}
-                  onChange={(e) =>
-                    handleStartTimeChange("minute", e.target.value)
-                  }
-                  className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
-                  placeholder="00"
-                />
-              </div>
+              <TimeInput value={startTime} onChange={handleStartTimeChange} />
             </div>
 
             <div className="flex items-center gap-6 max-mobile:gap-4">
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
                 종료 시간
               </span>
-              <div className="flex h-15 w-full items-center justify-center rounded-lg border border-[#E5E5E5] bg-background max-mobile:h-13">
-                <div className="flex min-w-20 items-center justify-center max-mobile:min-w-16">
-                  <Button
-                    color="primaryOutline"
-                    size="small"
-                    className="max-mobile:px-2"
-                    onClick={toggleEndPeriod}
-                  >
-                    {endTime.period === "am" ? "오전" : "오후"}
-                  </Button>
-                </div>
-                <input
-                  type="number"
-                  min="1"
-                  max="12"
-                  value={endTime.hour || ""}
-                  onChange={(e) => handleEndTimeChange("hour", e.target.value)}
-                  className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
-                  placeholder="00"
-                />
-                <span className="font-medium text-lg">:</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="59"
-                  value={endTime.minute || ""}
-                  onChange={(e) =>
-                    handleEndTimeChange("minute", e.target.value)
-                  }
-                  className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
-                  placeholder="00"
-                />
-              </div>
+              <TimeInput value={endTime} onChange={handleEndTimeChange} />
             </div>
           </div>
         </div>
