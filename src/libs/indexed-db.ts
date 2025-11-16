@@ -4,7 +4,6 @@ const STORE_NAME = "images";
 
 export interface ImageData {
   id: string;
-  file: File;
   dataUrl: string;
   timestamp: number;
 }
@@ -27,7 +26,6 @@ const openDB = (): Promise<IDBDatabase> => {
 
 export const saveImageToDB = async (
   id: string,
-  file: File,
   dataUrl: string,
 ): Promise<void> => {
   const db = await openDB();
@@ -37,7 +35,6 @@ export const saveImageToDB = async (
 
     const imageData: ImageData = {
       id,
-      file,
       dataUrl,
       timestamp: Date.now(),
     };

@@ -48,9 +48,9 @@ export const MainImage = () => {
     setIsLoading(true);
 
     try {
-      const { dataUrl, processedFile } = await processImageFile(file);
+      const { dataUrl } = await processImageFile(file);
 
-      await saveImageToDB(MAIN_IMAGE_ID, processedFile, dataUrl);
+      await saveImageToDB(MAIN_IMAGE_ID, dataUrl);
 
       setImagePreview(dataUrl);
       setMainImage(MAIN_IMAGE_ID);

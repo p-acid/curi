@@ -81,11 +81,11 @@ export const AdditionalImages = () => {
       }
 
       try {
-        const { dataUrl, processedFile } = await processImageFile(file);
+        const { dataUrl } = await processImageFile(file);
 
         const imageId = `${ADDITIONAL_IMAGE_PREFIX}${crypto.randomUUID()}`;
 
-        await saveImageToDB(imageId, processedFile, dataUrl);
+        await saveImageToDB(imageId, dataUrl);
 
         setImagePreviews((prev) => [...prev, { id: imageId, dataUrl }]);
         addAdditionalImage(imageId);
@@ -103,12 +103,12 @@ export const AdditionalImages = () => {
       }
     } else {
       try {
-        const { dataUrl, processedFile } = await processImageFile(file);
+        const { dataUrl } = await processImageFile(file);
 
         const targetImage = imagePreviews[selectedImageIndex];
         if (!targetImage) return;
 
-        await saveImageToDB(targetImage.id, processedFile, dataUrl);
+        await saveImageToDB(targetImage.id, dataUrl);
 
         setImagePreviews((prev) =>
           prev.map((img, idx) =>
