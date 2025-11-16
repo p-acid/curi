@@ -1,7 +1,12 @@
 "use client";
 
 import { overlay } from "overlay-kit";
-import { memo } from "react";
+import {
+  type FormEventHandler,
+  type KeyboardEvent,
+  memo,
+  useState,
+} from "react";
 import type { Matcher } from "react-day-picker";
 import XIcon from "@/assets/icons/x.svg?component";
 import { Button, Textarea } from "@/components";
@@ -60,6 +65,8 @@ const SessionFormFields = memo(
     dateDisabled,
     onDelete,
   }: SessionFormFieldsProps) => {
+    const [error, setError] = useState(false);
+
     const updateSession = useCreateContentStore((state) => state.updateSession);
 
     const handleDate = (date: Date | undefined) => {
@@ -135,6 +142,23 @@ const SessionFormFields = memo(
 
     const handleDescriptionChange = (newDescription: string) => {
       updateSession(id, { description: newDescription });
+
+      if (newDescription.length < 8) {
+        setError(true);
+      } else {
+        setError(false);
+      }
+    };
+
+    const handleInput: FormEventHandler<HTMLTextAreaElement> = (event) => {
+      const maximum = 330;
+      const changedHeight =
+        event.currentTarget.scrollHeight > maximum
+          ? maximum
+          : event.currentTarget.scrollHeight;
+
+      event.currentTarget.style.height = "auto";
+      event.currentTarget.style.height = `${changedHeight}px`;
     };
 
     return (
@@ -201,7 +225,10 @@ const SessionFormFields = memo(
             placeholder="활동 내용을 간단히 입력해주세요"
             minLength={8}
             maxLength={800}
+            error={error}
+            helperText={error ? "8자 이상 입력해주세요." : undefined}
             value={description}
+            onInput={handleInput}
             onChange={(e) => handleDescriptionChange(e.target.value)}
           />
         </div>
