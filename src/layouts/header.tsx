@@ -17,7 +17,7 @@ export const Header = ({
   onExit,
 }: HeaderProps) => {
   return (
-    <header className="sticky top-0 left-0 h-16 w-full border-[#D7D7D7] border-b bg-background max-mobile:h-12">
+    <header className="sticky top-0 left-0 z-50 h-16 w-full border-[#D7D7D7] border-b bg-background max-mobile:h-12">
       <div
         className={cn(
           "mx-auto flex h-full w-full max-w-container items-center justify-end px-5 max-mobile:px-4 max-mobile:py-2",

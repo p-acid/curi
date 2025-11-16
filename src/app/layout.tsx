@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
+import { OverlayProvider } from "overlay-kit";
 
 const PretendardVariable = localFont({
   src: "../assets/fonts/PretendardVariable.woff2",
@@ -37,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${PretendardVariable.className} antialiased`}>
-        {children}
+        <OverlayProvider>{children}</OverlayProvider>
         <Toaster position="bottom-center" containerClassName="toaster" />
       </body>
     </html>
