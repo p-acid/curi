@@ -23,6 +23,7 @@ export interface CreateContentState {
   meetingType: MeetingType | null;
   sessions: Session[];
   mainImageId: string | null;
+  additionalImageIds: string[];
 
   setCategories: (category: string[]) => void;
   setTitle: (title: string) => void;
@@ -31,6 +32,8 @@ export interface CreateContentState {
   updateSession: (id: string, session: Partial<Omit<Session, "id">>) => void;
   removeSession: (id: string) => void;
   setMainImage: (imageId: string | null) => void;
+  addAdditionalImage: (imageId: string) => void;
+  removeAdditionalImage: (imageId: string) => void;
   reset: () => void;
 }
 
@@ -39,6 +42,7 @@ const initialState = {
   title: "",
   meetingType: null,
   mainImageId: null,
+  additionalImageIds: [],
   sessions: [
     {
       id: crypto.randomUUID(),
@@ -91,6 +95,18 @@ export const useCreateContentStore = create<CreateContentState>()((set) => ({
     })),
 
   setMainImage: (imageId: string | null) => set({ mainImageId: imageId }),
+
+  addAdditionalImage: (imageId: string) =>
+    set((state) => ({
+      additionalImageIds: [...state.additionalImageIds, imageId],
+    })),
+
+  removeAdditionalImage: (imageId: string) =>
+    set((state) => ({
+      additionalImageIds: state.additionalImageIds.filter(
+        (id) => id !== imageId,
+      ),
+    })),
 
   reset: () => set(initialState),
 }));

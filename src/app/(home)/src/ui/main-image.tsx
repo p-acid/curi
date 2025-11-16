@@ -108,7 +108,7 @@ export const MainImage = () => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".jpg,.jpeg,.png"
+        accept=".jpg,.png"
         className="hidden"
         onChange={handleFileChange}
       />
