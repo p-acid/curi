@@ -20,12 +20,12 @@ export interface Session {
 }
 
 export interface CreateContentState {
-  category: string;
+  categories: string[];
   title: string;
   meetingType: MeetingType | null;
   sessions: Session[];
 
-  setCategory: (category: string) => void;
+  setCategories: (category: string[]) => void;
   setTitle: (title: string) => void;
   setMeetingType: (type: MeetingType) => void;
   addSession: (session: Omit<Session, "id">) => void;
@@ -35,10 +35,26 @@ export interface CreateContentState {
 }
 
 const initialState = {
-  category: "",
+  categories: [],
   title: "",
   meetingType: null,
-  sessions: [],
+  sessions: [
+    {
+      id: crypto.randomUUID(),
+      date: new Date().toString(),
+      startTime: {
+        period: "am" as const,
+        hour: 0,
+        minute: 0,
+      },
+      endTime: {
+        period: "am" as const,
+        hour: 0,
+        minute: 0,
+      },
+      description: "",
+    },
+  ],
 };
 
 export const useCreateContentStore = create<CreateContentState>()(
@@ -46,7 +62,7 @@ export const useCreateContentStore = create<CreateContentState>()(
     (set) => ({
       ...initialState,
 
-      setCategory: (category: string) => set({ category }),
+      setCategories: (categories: string[]) => set({ categories }),
 
       setTitle: (title: string) => set({ title }),
 

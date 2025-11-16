@@ -9,6 +9,12 @@
   --text-default-line-height: 1.3;
 }
 
+@layer base {
+  .toaster {
+    @apply bottom-10! max-mobile:bottom-[86px]!;
+  }
+}
+
 @layer utilities {
   [class*="text-"] {
     line-height: var(--text-default-line-height);
@@ -65,3 +71,4 @@ button {
 button:disabled {
   cursor: not-allowed;
 }
+

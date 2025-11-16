@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${PretendardVariable.className} antialiased`}>
         {children}
+        <Toaster position="bottom-center" containerClassName="toaster" />
       </body>
     </html>
   );
