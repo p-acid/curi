@@ -65,9 +65,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
           {showCharCount && (
             <div className="flex justify-end gap-0.5 px-4 pt-2 pb-3 text-[#8F8F8F] text-sm">
-              <span>{currentLength}</span>
               <span>
-                {maxLength !== undefined && ` / ${maxLength}자`}
+                {currentLength > maxLength ? maxLength : currentLength}
+              </span>
+              <span>
+                {maxLength !== undefined && `/${maxLength}`}
                 {minLength !== undefined && ` (최소 ${minLength}자)`}
               </span>
             </div>
