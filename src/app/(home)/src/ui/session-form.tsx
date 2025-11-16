@@ -2,15 +2,18 @@
 
 import { overlay } from "overlay-kit";
 import { memo } from "react";
+import type { Matcher } from "react-day-picker";
 import XIcon from "@/assets/icons/x.svg?component";
 import { Button, Textarea } from "@/components";
 import {
   type Session,
   useCreateContentStore,
 } from "@/store/use-create-content-store";
+import { DateSelect } from "./date-select";
 import { SessionDeleteModal } from "./session-delete-modal";
 
 interface SessionFormFieldsProps extends Session {
+  dateDisabled: Matcher[];
   sessionNum?: number;
   onDelete?: () => void;
 }
@@ -18,13 +21,23 @@ interface SessionFormFieldsProps extends Session {
 const SessionFormFields = memo(
   ({
     id,
+    date,
     startTime,
     endTime,
     description,
     sessionNum,
+    dateDisabled,
     onDelete,
   }: SessionFormFieldsProps) => {
     const updateSession = useCreateContentStore((state) => state.updateSession);
+
+    const handleDate = (date: Date | undefined) => {
+      if (date) {
+        updateSession(id, {
+          date: date.toDateString(),
+        });
+      }
+    };
 
     const handleStartTimeChange = (
       field: "period" | "hour" | "minute",
@@ -91,14 +104,12 @@ const SessionFormFields = memo(
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
                 날짜 선택
               </span>
-              <button
-                type="button"
-                className="flex h-15 w-full items-center justify-center rounded-lg border border-[#E5E5E5] bg-background max-mobile:h-13"
-              >
-                <p className="text-[#8F8F8F] text-xl max-mobile:text-base">
-                  날짜를 선택해주세요
-                </p>
-              </button>
+              <DateSelect
+                dateDisabled={dateDisabled}
+                defaultValue={date ? new Date(date) : undefined}
+                value={date ? new Date(date) : undefined}
+                onSelect={handleDate}
+              />
             </div>
 
             <div className="flex items-center gap-6 max-mobile:gap-4">
@@ -256,6 +267,55 @@ export const SessionForm = () => {
     ));
   };
 
+  const getDateDisabled = (index: number): Matcher[] => {
+    const previousSessions = sessions.slice(0, index);
+    const latestPreviousDate = previousSessions.reduce<Date | null>(
+      (latest, session) => {
+        if (!session.date) return latest;
+        const sessionDate = new Date(session.date);
+        if (!latest || sessionDate > latest) return sessionDate;
+        return latest;
+      },
+      null,
+    );
+
+    const nextSessions = sessions.slice(index + 1);
+    const earliestNextDate = nextSessions.reduce<Date | null>(
+      (earliest, session) => {
+        if (!session.date) return earliest;
+        const sessionDate = new Date(session.date);
+        if (!earliest || sessionDate < earliest) return sessionDate;
+        return earliest;
+      },
+      null,
+    );
+
+    const otherSessionDates = sessions
+      .filter((_, i) => i !== index)
+      .map((session) => session.date)
+      .filter((date): date is string => !!date)
+      .map((date) => new Date(date));
+
+    const beforeDate = latestPreviousDate
+      ? new Date(Math.max(latestPreviousDate.getTime(), Date.now()))
+      : new Date();
+
+    if (
+      latestPreviousDate &&
+      beforeDate.getTime() === latestPreviousDate.getTime()
+    ) {
+      beforeDate.setDate(beforeDate.getDate() + 1);
+    }
+
+    const dateDisabled: Matcher[] = [
+      { before: beforeDate },
+      ...(earliestNextDate ? [{ after: earliestNextDate }] : []),
+      ...otherSessionDates.map((date) => date),
+    ];
+
+    return dateDisabled;
+  };
+
   return (
     <>
       <div className="box">
@@ -263,6 +323,7 @@ export const SessionForm = () => {
         {sessions.map((session, index) => (
           <SessionFormFields
             key={session.id}
+            dateDisabled={getDateDisabled(index)}
             sessionNum={isMultipleSession ? index + 1 : undefined}
             onDelete={
               isMultipleSession ? () => openDeleteModal(session.id) : undefined
