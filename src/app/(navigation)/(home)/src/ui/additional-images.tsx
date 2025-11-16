@@ -4,7 +4,7 @@ export const AdditionalImages = () => {
   return (
     <div className="box">
       <div className="space-y-2">
-        <h3 className="heading-1">추가 이미지 (선택)</h3>
+        <h2 className="heading-1">추가 이미지 (선택)</h2>
         <p className="title-1 text-[#767676]">최대 4장까지 등록할 수 있어요</p>
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-4">

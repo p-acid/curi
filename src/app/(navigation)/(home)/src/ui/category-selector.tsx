@@ -24,7 +24,7 @@ const CategoryLink = () => {
 export const CategorySelector = () => {
   return (
     <div className="box">
-      <h3 className="heading-1">카테고리</h3>
+      <h2 className="heading-1">카테고리</h2>
       <CategoryLink />
     </div>
   );

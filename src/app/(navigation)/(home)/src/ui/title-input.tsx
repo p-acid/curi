@@ -21,7 +21,7 @@ const TitleTextarea = () => {
 export const TitleInput = () => {
   return (
     <div className="box">
-      <h3 className="heading-1">콘텐츠 제목</h3>
+      <h2 className="heading-1">콘텐츠 제목</h2>
       <TitleTextarea />
     </div>
   );

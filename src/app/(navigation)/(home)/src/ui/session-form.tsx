@@ -60,7 +60,7 @@ const SessionFormFields = memo(
     return (
       <div className="flex flex-col gap-8 rounded-lg bg-[#F7F7F8] px-5 py-7">
         <div className="space-y-4">
-          <p className="heading-2">회차 정보</p>
+          <h3 className="heading-2">회차 정보</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-6 max-mobile:gap-4">
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
@@ -219,7 +219,7 @@ export const SessionForm = () => {
   return (
     <>
       <div className="box">
-        <h3 className="heading-1">상세 정보</h3>
+        <h2 className="heading-1">상세 정보</h2>
         {sessions.map((session) => (
           <SessionFormFields key={session.id} {...session} />
         ))}

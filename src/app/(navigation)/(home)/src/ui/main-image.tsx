@@ -3,7 +3,7 @@ import { Button } from "@/components";
 export const MainImage = () => {
   return (
     <div className="box">
-      <h3 className="heading-1">대표 이미지</h3>
+      <h2 className="heading-1">대표 이미지</h2>
       <div className="flex aspect-square flex-col items-center justify-center gap-6 rounded-lg border border-[#E5E5E5] bg-[#F7F7F8]">
         <div className="flex flex-col gap-2">
           <p className="whitespace-pre text-center font-bold text-[28px] max-mobile:text-xl">

@@ -35,7 +35,7 @@ export const MeetingTypeSelector = () => {
   return (
     <div className="box">
       <div className="space-y-2">
-        <h3 className="heading-1">활동 방식 선택</h3>
+        <h2 className="heading-1">활동 방식 선택</h2>
         <p className="title-1 text-[#767676]">
           만남을 어떤 방식으로 진행하시겠어요?
         </p>
