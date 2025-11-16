@@ -71,7 +71,7 @@ export const DateSelect = ({
       </button>
 
       {isOpen && (
-        <div className="-translate-x-[50%] absolute top-full left-1/2 z-10 mt-1 w-[330px] space-y-4 rounded-lg border border-[#E5E5E5] bg-white p-4 shadow-lg">
+        <div className="-translate-x-[50%] max-mobile:translate-0 absolute top-full left-1/2 z-10 mt-1 w-[330px] space-y-4 rounded-lg border border-[#E5E5E5] bg-white p-4 shadow-lg max-mobile:right-0 max-mobile:left-auto">
           <Calendar
             required
             disabled={[
