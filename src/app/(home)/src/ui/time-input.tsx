@@ -10,29 +10,53 @@ interface TimeValue {
 
 interface TimeInputProps {
   value: TimeValue;
-  onChange: (value: TimeValue) => void;
+  onPeriodChange: (period: "am" | "pm") => void;
+  onHourChange: (hour: number) => void;
+  onMinuteChange: (minute: number) => void;
 }
 
-export const TimeInput = ({ value, onChange }: TimeInputProps) => {
+export const TimeInput = ({
+  value,
+  onPeriodChange,
+  onHourChange,
+  onMinuteChange,
+}: TimeInputProps) => {
   const handlePeriodToggle = () => {
-    onChange({
-      ...value,
-      period: value.period === "am" ? "pm" : "am",
-    });
+    onPeriodChange(value.period === "am" ? "pm" : "am");
   };
 
-  const handleHourChange = (hour: string) => {
-    onChange({
-      ...value,
-      hour: Number(hour),
-    });
+  const handleHourInputChange = (hourStr: string) => {
+    if (hourStr === "") {
+      onHourChange(0);
+      return;
+    }
+
+    if (hourStr.length > 2) {
+      return;
+    }
+
+    const hour = Number(hourStr);
+
+    if (hour >= 1 && hour <= 12) {
+      onHourChange(hour);
+    }
   };
 
-  const handleMinuteChange = (minute: string) => {
-    onChange({
-      ...value,
-      minute: Number(minute),
-    });
+  const handleMinuteInputChange = (minuteStr: string) => {
+    if (minuteStr === "") {
+      onMinuteChange(0);
+      return;
+    }
+
+    if (minuteStr.length > 2) {
+      return;
+    }
+
+    const minute = Number(minuteStr);
+
+    if (minute >= 0 && minute <= 59) {
+      onMinuteChange(minute);
+    }
   };
 
   return (
@@ -52,7 +76,7 @@ export const TimeInput = ({ value, onChange }: TimeInputProps) => {
         min="1"
         max="12"
         value={value.hour || ""}
-        onChange={(e) => handleHourChange(e.target.value)}
+        onChange={(e) => handleHourInputChange(e.target.value)}
         className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
         placeholder="00"
       />
@@ -62,7 +86,7 @@ export const TimeInput = ({ value, onChange }: TimeInputProps) => {
         min="0"
         max="59"
         value={value.minute || ""}
-        onChange={(e) => handleMinuteChange(e.target.value)}
+        onChange={(e) => handleMinuteInputChange(e.target.value)}
         className="w-full text-center font-medium text-xl outline-none max-mobile:text-lg"
         placeholder="00"
       />

@@ -3,19 +3,17 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 export type MeetingType = "online" | "offline";
 
+export interface TimeValue {
+  period: "am" | "pm";
+  hour: number;
+  minute: number;
+}
+
 export interface Session {
   id: string;
   date: string;
-  startTime: {
-    period: "am" | "pm";
-    hour: number;
-    minute: number;
-  };
-  endTime: {
-    period: "am" | "pm";
-    hour: number;
-    minute: number;
-  };
+  startTime: TimeValue;
+  endTime: TimeValue;
   description: string;
 }
 
@@ -44,12 +42,12 @@ const initialState = {
       date: new Date().toString(),
       startTime: {
         period: "am" as const,
-        hour: 0,
+        hour: 10,
         minute: 0,
       },
       endTime: {
         period: "am" as const,
-        hour: 0,
+        hour: 11,
         minute: 0,
       },
       description: "",

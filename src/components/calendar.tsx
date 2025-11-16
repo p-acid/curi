@@ -12,7 +12,7 @@ import {
 } from "react-day-picker";
 import ChevronLeftIcon from "@/assets/icons/chevron-left.svg?component";
 import ChevronRightIcon from "@/assets/icons/chevron-right.svg?component";
-import { cn } from "@/utils/cn";
+import { cn } from "@/libs/cn";
 
 const DayButton = (props: DayButtonProps) => {
   const { day, modifiers, ...buttonProps } = props;

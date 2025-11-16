@@ -3,8 +3,8 @@
 import Link from "next/link";
 import ChevronRightIcon from "@/assets/icons/chevron-right.svg?component";
 import { PAGE_ROUTES } from "@/config/page-routes";
+import { cn } from "@/libs/cn";
 import { useCreateContentStore } from "@/store/use-create-content-store";
-import { cn } from "@/utils/cn";
 
 const CategoryLink = () => {
   const categories = useCreateContentStore((state) => state.categories);

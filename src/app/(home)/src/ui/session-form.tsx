@@ -5,19 +5,43 @@ import { memo } from "react";
 import type { Matcher } from "react-day-picker";
 import XIcon from "@/assets/icons/x.svg?component";
 import { Button, Textarea } from "@/components";
+import { toast } from "@/libs/toast";
 import {
   type Session,
+  type TimeValue,
   useCreateContentStore,
 } from "@/store/use-create-content-store";
 import { DateSelect } from "./date-select";
 import { SessionDeleteModal } from "./session-delete-modal";
 import { TimeInput } from "./time-input";
 
-interface TimeValue {
-  period: "am" | "pm";
-  hour: number;
-  minute: number;
-}
+const convertTo24HourMinutes = (time: TimeValue): number => {
+  let hour = time.hour;
+  if (time.period === "pm" && hour !== 12) {
+    hour += 12;
+  } else if (time.period === "am" && hour === 12) {
+    hour = 0;
+  }
+  return hour * 60 + time.minute;
+};
+
+const addOneHour = (time: TimeValue): TimeValue => {
+  let newHour = time.hour + 1;
+  let newPeriod = time.period;
+
+  if (newHour === 12 && time.period === "am") {
+    newPeriod = "pm";
+  } else if (newHour === 13) {
+    newHour = 1;
+    newPeriod = time.period === "am" ? "pm" : "am";
+  }
+
+  return {
+    period: newPeriod,
+    hour: newHour > 12 ? newHour - 12 : newHour,
+    minute: time.minute,
+  };
+};
 
 interface SessionFormFieldsProps extends Session {
   dateDisabled: Matcher[];
@@ -46,12 +70,67 @@ const SessionFormFields = memo(
       }
     };
 
-    const handleStartTimeChange = (value: TimeValue) => {
-      updateSession(id, { startTime: value });
+    const handleStartPeriodChange = (period: "am" | "pm") => {
+      updateSession(id, {
+        startTime: { ...startTime, period },
+        endTime: { ...endTime, period },
+      });
     };
 
-    const handleEndTimeChange = (value: TimeValue) => {
-      updateSession(id, { endTime: value });
+    const handleStartHourChange = (hour: number) => {
+      const newStartTime = { ...startTime, hour };
+      const newEndTime = addOneHour(newStartTime);
+      updateSession(id, {
+        startTime: newStartTime,
+        endTime: newEndTime,
+      });
+    };
+
+    const handleStartMinuteChange = (minute: number) => {
+      const newStartTime = { ...startTime, minute };
+      const newEndTime = addOneHour(newStartTime);
+      updateSession(id, {
+        startTime: newStartTime,
+        endTime: newEndTime,
+      });
+    };
+
+    const validateAndUpdateEndTime = (newEndTime: TimeValue) => {
+      const startMinutes = convertTo24HourMinutes(startTime);
+      const endMinutes = convertTo24HourMinutes(newEndTime);
+
+      if (endMinutes <= startMinutes) {
+        toast("시작 시간보다 종료시간은 빠를 수 없습니다.");
+        const correctedEndTime = addOneHour(startTime);
+        updateSession(id, { endTime: correctedEndTime });
+      } else {
+        updateSession(id, { endTime: newEndTime });
+      }
+    };
+
+    const handleEndPeriodChange = (period: "am" | "pm") => {
+      const newEndTime = { ...endTime, period };
+      validateAndUpdateEndTime(newEndTime);
+    };
+
+    const handleEndHourChange = (hour: number) => {
+      if (hour === 0) {
+        updateSession(id, { endTime: { ...endTime, hour } });
+        return;
+      }
+
+      const newEndTime = { ...endTime, hour };
+      validateAndUpdateEndTime(newEndTime);
+    };
+
+    const handleEndMinuteChange = (minute: number) => {
+      if (minute === 0) {
+        updateSession(id, { endTime: { ...endTime, minute } });
+        return;
+      }
+
+      const newEndTime = { ...endTime, minute };
+      validateAndUpdateEndTime(newEndTime);
     };
 
     const handleDescriptionChange = (newDescription: string) => {
@@ -89,14 +168,24 @@ const SessionFormFields = memo(
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
                 시작 시간
               </span>
-              <TimeInput value={startTime} onChange={handleStartTimeChange} />
+              <TimeInput
+                value={startTime}
+                onPeriodChange={handleStartPeriodChange}
+                onHourChange={handleStartHourChange}
+                onMinuteChange={handleStartMinuteChange}
+              />
             </div>
 
             <div className="flex items-center gap-6 max-mobile:gap-4">
               <span className="whitespace-pre font-semibold text-[#565656] text-lg max-mobile:text-base">
                 종료 시간
               </span>
-              <TimeInput value={endTime} onChange={handleEndTimeChange} />
+              <TimeInput
+                value={endTime}
+                onPeriodChange={handleEndPeriodChange}
+                onHourChange={handleEndHourChange}
+                onMinuteChange={handleEndMinuteChange}
+              />
             </div>
           </div>
         </div>
@@ -131,12 +220,12 @@ const AddSessionButton = () => {
       date: "",
       startTime: {
         period: "am",
-        hour: 0,
+        hour: 10,
         minute: 0,
       },
       endTime: {
         period: "am",
-        hour: 0,
+        hour: 11,
         minute: 0,
       },
       description: "",

@@ -2,7 +2,7 @@
 
 import { type ComponentProps, forwardRef, useState } from "react";
 
-import { cn } from "@/utils/cn";
+import { cn } from "@/libs/cn";
 
 export interface TextareaProps extends ComponentProps<"textarea"> {
   error?: boolean;

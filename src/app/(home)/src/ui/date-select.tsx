@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Matcher } from "react-day-picker";
 import { Button, Calendar } from "@/components";
-import { cn } from "@/utils/cn";
+import { cn } from "@/libs/cn";
 
 const formatDateToKorean = (date: Date): string => {
   const year = date.getFullYear();

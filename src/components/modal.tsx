@@ -2,7 +2,7 @@
 
 import { type ComponentProps, useEffect } from "react";
 import XIcon from "@/assets/icons/x.svg?component";
-import { cn } from "@/utils/cn";
+import { cn } from "@/libs/cn";
 
 export interface ModalProps extends ComponentProps<"div"> {
   onClose?: () => void;
