@@ -39,7 +39,7 @@ const initialState = {
   sessions: [
     {
       id: crypto.randomUUID(),
-      date: new Date().toString(),
+      date: "",
       startTime: {
         period: "am" as const,
         hour: 10,
@@ -55,48 +55,37 @@ const initialState = {
   ],
 };
 
-export const useCreateContentStore = create<CreateContentState>()(
-  persist(
-    (set) => ({
-      ...initialState,
+export const useCreateContentStore = create<CreateContentState>()((set) => ({
+  ...initialState,
 
-      setCategories: (categories: string[]) => set({ categories }),
+  setCategories: (categories: string[]) => set({ categories }),
 
-      setTitle: (title: string) => set({ title }),
+  setTitle: (title: string) => set({ title }),
 
-      setMeetingType: (type: MeetingType) => set({ meetingType: type }),
+  setMeetingType: (type: MeetingType) => set({ meetingType: type }),
 
-      addSession: (session: Omit<Session, "id">) =>
-        set((state) => ({
-          sessions: [
-            ...state.sessions,
-            {
-              ...session,
-              id: crypto.randomUUID(),
-            },
-          ],
-        })),
+  addSession: (session: Omit<Session, "id">) =>
+    set((state) => ({
+      sessions: [
+        ...state.sessions,
+        {
+          ...session,
+          id: crypto.randomUUID(),
+        },
+      ],
+    })),
 
-      updateSession: (
-        id: string,
-        updatedSession: Partial<Omit<Session, "id">>,
-      ) =>
-        set((state) => ({
-          sessions: state.sessions.map((session) =>
-            session.id === id ? { ...session, ...updatedSession } : session,
-          ),
-        })),
+  updateSession: (id: string, updatedSession: Partial<Omit<Session, "id">>) =>
+    set((state) => ({
+      sessions: state.sessions.map((session) =>
+        session.id === id ? { ...session, ...updatedSession } : session,
+      ),
+    })),
 
-      removeSession: (id: string) =>
-        set((state) => ({
-          sessions: state.sessions.filter((session) => session.id !== id),
-        })),
+  removeSession: (id: string) =>
+    set((state) => ({
+      sessions: state.sessions.filter((session) => session.id !== id),
+    })),
 
-      reset: () => set(initialState),
-    }),
-    {
-      name: "create-content-storage",
-      storage: createJSONStorage(() => sessionStorage),
-    },
-  ),
-);
+  reset: () => set(initialState),
+}));
